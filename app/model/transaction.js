@@ -4,7 +4,7 @@ class Transaction {
     this.from = from;
     this.to = to;
     this.narrative = narrative;
-    this.amount = amount;
+    this.amount = Number(amount);
   }
 }
 

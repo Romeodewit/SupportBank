@@ -1,13 +1,12 @@
-const Transaction = require('./transaction');
-const fs = require('fs');
-const Account = require('./account');
+const Transaction = require("./transaction");
+const fs = require("fs");
+const Account = require("./account");
 
 class Bank {
-  constructor(){
+  constructor() {
     this.accounts = [];
     this.transactions = [];
-    this.loadTransactions();
-    this.loadAccounts('from');
+    this.loadAccounts();
   }
 
   loadTransactions() {
@@ -21,26 +20,28 @@ class Bank {
           transaction.Amount
         )
       )
-    )
+    );
   }
 
-  async loadAccounts(property) {
-    await this.loadTransactions();
-    const array = this.transactions.reduce((accumulator, object) => {
-      const key = object[property];
-      
-      if (!accumulator[key]) {
-        new Account(accumulator[key])
+  loadAccounts() {
+    this.loadTransactions();
+    this.transactions.forEach((transaction) => {
+      if (!this.accounts.some(account => account["name"] === transaction["from"]) && !this.accounts.some(account => account["name"] === transaction["to"])) 
+      {
+        this.accounts.push(new Account(transaction["from"], this.transactions))
+        this.accounts.push(new Account(transaction["to"], this.transactions)) 
+      } 
+      else if (!this.accounts.some(account => account["name"] === transaction["from"])) 
+      {
+        this.accounts.push(new Account(transaction["from"], this.transactions))
+      } 
+      else if (!this.accounts.some(account => account["name"] === transaction["to"])) 
+      {
+        this.accounts.push(new Account(transaction["to"], this.transactions)) 
       }
-      
-    }, {})
-    this.accounts.push(array);
+    });
   }
 }
 
-const bank = new Bank;
-
-console.log(bank.accounts)
-
-
-
+const bank = new Bank();
+module.exports = bank;
