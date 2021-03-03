@@ -1,4 +1,3 @@
-const fs = require("fs");
 class Transaction {
   constructor(date, from, to, narrative, amount) {
     this.date = date;
@@ -9,18 +8,4 @@ class Transaction {
   }
 }
 
-export const transactions = () => {
-  const allTransactions = [];
-  JSON.parse(fs.readFileSync("transactions.json")).forEach((transaction) =>
-    allTransactions.push(
-      new Transaction(
-        transaction.Date,
-        transaction.From,
-        transaction.To,
-        transaction.Narrative,
-        transaction.Amount
-      )
-    )
-  );
-  return allTransactions;
-};
+module.exports = Transaction;

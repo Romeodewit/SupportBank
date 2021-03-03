@@ -1,12 +1,9 @@
-import { transactions } from './transaction'
-export default class Account extends Transaction {
-  constructor(name, balance){
-    super(date, from, to, narrative, amount)
+class Account {
+  constructor(name) {
     this.transactions = [];
     this.name = name;
-    this.balance = balance;
+    this.balance = null;
   }
-    
 }
 
-transactions.Group
+module.exports = Account;
